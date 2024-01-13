@@ -15,8 +15,8 @@ public class Main {
         int min = 1000000;
         for (int i = 0; i < N; i++) {
             int number = Integer.parseInt(st.nextToken());
-            if (max < number) max = number;
-            if (min > number) min = number;
+            max = Math.max(max, number);
+            min = Math.min(min, number);
         }
         System.out.println(min + " " + max);
     }
