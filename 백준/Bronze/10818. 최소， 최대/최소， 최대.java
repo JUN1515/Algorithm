@@ -1,23 +1,42 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
-        st = new StringTokenizer(br.readLine());
+        int N = readInt();
+        int[] array = new int[N];
 
-        int max = -1000000;
-        int min = 1000000;
         for (int i = 0; i < N; i++) {
-            int number = Integer.parseInt(st.nextToken());
-            max = Math.max(max, number);
-            min = Math.min(min, number);
+            array[i] = readInt();
         }
-        System.out.println(min + " " + max);
+
+        int max = array[0], min = array[0];
+
+        for (int i = 1; i < N; i++) {
+            max = Math.max(max, array[i]);
+            min = Math.min(min, array[i]);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(min).append(" ").append(max);
+        System.out.println(sb);
+    }
+
+    private static int readInt() throws IOException {
+        int val = 0;
+        int total = 0;
+        int sign = 1;
+
+        while ((val = System.in.read()) != '\n' && val != ' ') {
+            if (val == '-') sign = -1;
+            else total = total * 10 + (val - '0');
+        }
+
+        if (sign == -1) total = -total;
+
+        return total;
     }
 }
