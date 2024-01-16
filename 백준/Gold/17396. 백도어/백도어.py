@@ -20,8 +20,6 @@ def Dijkstra(N, start, end):
             return current_dist
 
         for w, dist in G[v].items():
-            if not_passable[w]: continue    # 지나갈 수 없는 경우
-
             next_dist = current_dist + dist
             if distance[w] > next_dist:
                 distance[w] = next_dist
@@ -41,6 +39,7 @@ not_passable[N-1] = 0   # 단, N-1은 통과 가능
 G = [{} for _ in range(N)]
 for _ in range(M):
     a, b, t = map(int, input().split())
+    if not_passable[a] or not_passable[b]: continue # 지나갈 수 없는 경우
     G[a][b] = t
     G[b][a] = t
 
