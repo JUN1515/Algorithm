@@ -8,8 +8,7 @@ heap = list(map(int, input().split()))
 heapify(heap)
 
 for _ in range(N-1):
-    lst = map(int, input().split())
-    for elm in lst:
-        heappush(heap, elm)
-        heappop(heap)
+    for num in map(int, input().split()):
+        if heap[0] < num:
+            heapreplace(heap, num)
 print(heappop(heap))
