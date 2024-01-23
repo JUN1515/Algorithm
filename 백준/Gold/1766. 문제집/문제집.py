@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 from heapq import *
 
 input = sys.stdin.readline
@@ -17,16 +16,15 @@ for _ in range(M):
 
 # 진입 차수가 0인 정점을 모두 찾기
 heap = [i for i in range(1, N + 1) if not indegree[i]]
-result = deque()  # 알고리즘 수행 결과를 담을 리스트
+result = []                     # 알고리즘 수행 결과를 담을 리스트
 
-# Q가 빌때까지 반복문 수행
-while heap:
-    v = heappop(heap)  # 큐에서 원소 꺼내기
-    result.append(v)  # 결과 리스트에 추가, index는 우선순위 큐에서 활용
+while heap:                     # heap이 빌때까지 반복문 수행
+    v = heappop(heap)           # heap에서 원소 꺼내기 (가능한 쉬운 문제)
+    result.append(v)            # 결과 리스트에 추가
 
     for w in graph[v]:
-        indegree[w] -= 1  # 해당 정점과 연결된 모든 정점들의 진입 차수 빼기
+        indegree[w] -= 1        # 해당 정점과 연결된 모든 정점들의 진입 차수 빼기
         if indegree[w] == 0:
-            heappush(heap, w)  # 새롭게 진입 차수가 0이 된 정점은 큐에 삽입
+            heappush(heap, w)   # 새롭게 진입 차수가 0이 된 정점은 큐에 삽입
 
 print(*result)
