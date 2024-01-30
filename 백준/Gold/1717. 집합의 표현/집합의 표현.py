@@ -1,29 +1,30 @@
 import sys
-sys.setrecursionlimit(1000000)
 
 def find_parent(x):
-    global parent
-    if parent[x] != x:
-        parent[x] = find_parent(parent[x])
+    if parent[x] < 0:
+        return x
+    parent[x] = find_parent(parent[x])
     return parent[x]
 
 
-def union_parent(a, b):
-    a = find_parent(a)
-    b = find_parent(b)
-    if a < b:
-        parent[b] = a
+def union_parent(x, y):
+    if parent[x] > parent[y]:   # 최대 깊이가 더 적은 부모를 루트 부모로 하기 위함
+        parent[x] = y
     else:
-        parent[a] = b
+        if parent[x] == parent[y]:
+            parent[x] -= 1
+        parent[y] = x
+
 
 input = sys.stdin.readline
 n, m = map(int, input().split())
-parent = [i for i in range(n + 1)]  # 부모 테이블에서, 부모를 자기 자신으로 초기화
+parent = [-1] * (n + 1)
 
 for _ in range(m):
     c, a, b = map(int, input().split())
+    x, y = find_parent(a), find_parent(b)
     if c == 1:  # 합집합 확인 연산
-        print("YES") if find_parent(a) == find_parent(b) else print("NO")
-
+        print("YES") if x == y else print("NO")
     else:       # 합집합 연산
-        union_parent(a, b)
+        if x != y:
+            union_parent(x, y)
