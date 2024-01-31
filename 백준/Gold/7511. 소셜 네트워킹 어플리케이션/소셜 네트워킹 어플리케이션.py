@@ -28,11 +28,11 @@ for tc in range(1, int(input()) + 1):
         if x != y:
             union_parent(x, y)
 
-    ans = f'Scenario {tc}:\n'
+    print(f'Scenario {tc}:')
     m = int(input())
     result = [0] * m
     for _ in range(m):
         u, v = map(int, input().split())
         x, y = find_parent(u), find_parent(v)
-        ans += "1\n" if x == y else "0\n"
-    print(ans)
+        print(1) if x == y else print(0)
+    print()
