@@ -1,37 +1,39 @@
-def get_parent(x):
-    if parent[x] == x:
-        return x
-    parent[x] = get_parent(parent[x])
+import sys
+input = sys.stdin.readline
+
+def find_parent(x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent[x])
     return parent[x]
 
 
-def find_group(x1, x2):
-    parent1 = get_parent(x1)
-    parent2 = get_parent(x2)
-    if parent1 > parent2:
-        parent[parent1] = parent2
+def union_parent(x, y):
+    if x > y:
+        parent[x] = y
     else:
-        parent[parent2] = parent1
+        parent[y] = x
 
+T = int(input())
+for _ in range(T):
 
+    N = int(input())
+    parent = [i for i in range(N)]
+    arr = [tuple(map(int, input().split())) for _ in range(N)]
 
-import sys, math
-input = sys.stdin.readline
-tc = int(input())
-for _ in range(tc):
-    n = int(input())
-    array = [list(map(int, input().split())) for _ in range(n)]
-    parent = [i for i in range(n)]
-    for i in range(n):
-        x1, y1, r1 = array[i]
-        for j in range(i+1, n):
-            x2, y2, r2 = array[j]
-            if math.sqrt((x1-x2)**2 + (y1-y2)**2) <= r1+r2:
-                find_group(i, j)
-    count_group = set()
-    for i in range(n):
-        x = get_parent(i)
-        if x not in count_group:
-            count_group.add(x)
+    result = 0
 
-    print(len(count_group))
+    for i in range(N):
+        x1, y1, r1 = arr[i]
+
+        for j in range(i + 1, N):
+            x2, y2, r2 = arr[j]
+
+            if ((x1 - x2)**2 + (y1 - y2)**2) <= (r1 + r2)**2:     # 두 점 사이의 거리가 각 두 점의 반지름의 합보다 작은 경우
+                if (a := find_parent(i)) == (b := find_parent(j)): continue
+                union_parent(a, b)
+
+    for i in range(N):
+        if find_parent(i) == i:
+            result += 1
+
+    print(result)
