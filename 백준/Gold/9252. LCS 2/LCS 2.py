@@ -2,27 +2,33 @@ import sys
 input = sys.stdin.readline
 
 def solution():
-    A = "A" + input().strip()
-    B = "A" + input().strip()
+    A = input().strip()
+    B = input().strip()
 
-    c_cnt = len(A)
-    r_cnt = len(B)
+    a_length = len(A)
+    b_length = len(B)
 
-    LCS = [[""] * c_cnt for _ in range(r_cnt)]
+    dp = [""] * max(a_length, b_length)
 
-    for r in range(1, r_cnt):
-        for c in range(1, c_cnt):
-            if A[c] == B[r]:
-                LCS[r][c] = LCS[r - 1][c - 1] + A[c]
-            else:
-                if len(LCS[r - 1][c]) >= len(LCS[r][c - 1]):
-                    LCS[r][c] = LCS[r - 1][c]
-                else:
-                    LCS[r][c] = LCS[r][c - 1]
+    for a in A:
+        current_length, current_str = 0, ""
 
-    answer = LCS[r_cnt - 1][c_cnt - 1]
+        for i, b in enumerate(B):
+            if current_length < (length := len(dp[i])):
+                current_length = length
+                current_str = dp[i]
+
+            elif a == b:
+                dp[i] = current_str + b
+
+    answer = ""
+    for s in dp:
+        if len(answer) < len(s):
+            answer = s
+
     print(len(answer))
-    print(answer)
+    if answer:
+        print(answer)
 
 
 solution()
