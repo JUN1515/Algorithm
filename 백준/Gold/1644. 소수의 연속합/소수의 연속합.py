@@ -1,3 +1,4 @@
+# refer https://www.acmicpc.net/source/54252298
 import sys
 input = sys.stdin.readline
 
@@ -11,45 +12,29 @@ def solution():
                 for j in range(2 * i, num + 1, i):
                     numbers[j] = 0
 
-        prime = [0]
-        for i in range(2, num + 1):
-            if numbers[i]:
-                prime.append(i)
-
-        return prime
+        return [i for i in range(2, num + 1) if numbers[i]]
 
     N = int(input())
 
     if N == 1:
-        return 0
-
+        print(0)
     else:
-        arr = prime_numbers(N)
-        prefix_sum = [0] * len(arr)
+        primes = prime_numbers(N)
 
-        a = 0
-        count = 0
+        a = iter(primes)
+        partial_sum = 0     # 부분합
+        result = 0
 
-        for b in range(1, len(arr)):
-            prefix_sum[b] = prefix_sum[b - 1] + arr[b]
+        for b in primes:
+            partial_sum += b
 
-            while a != b:   # 만일 포인터 a와 b가 같은 위치를 가리키면 종료
-                partial_sum = prefix_sum[b] - prefix_sum[a] # 부분합
+            while partial_sum > N:          # 만일 부분합이 N보다 크다면,
+                partial_sum -= next(a)      # 부분합 중 가장 작은 소수 제거
 
-                # 만일 부분합이 N보다 크다면,
-                # 부분합을 줄이기 위해 a의 위치를 오른쪽으로 이동
-                if partial_sum > N:
-                    a += 1
+            if partial_sum == N:
+                result += 1
 
-                # 만일 부분합이 N 보다 작은 경우는 반복문 종료
-                # (부분합의 크기를 줄이지 않기 위함)
-                else:
-                    if partial_sum == N:
-                        a += 1
-                        count += 1
-                    break
-
-        return count
+        print(result)
 
 
-print(solution())
+solution()
