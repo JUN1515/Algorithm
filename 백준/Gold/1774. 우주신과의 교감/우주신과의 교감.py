@@ -29,10 +29,14 @@ def solution():
 
     edges.sort(key=lambda x: x[2])
 
+    count = 0   # 연결된 선의 수 (가지치기 조건)
     # 이미 연결된 정점에 대해 합연산 해두기
     for _ in range(M):
         a, b = map(int, input().split())
-        union_parent(find_parent(a - 1), find_parent(b - 1))
+        x1, y1 = find_parent(a - 1), find_parent(b - 1)
+        if x1 != y1:
+            union_parent(x1, y1)
+            count += 1
 
     result = 0
     for edge in edges:
@@ -42,6 +46,9 @@ def solution():
         if x != y:  # 집합에 포함되어 있지 않으면, 길이 추가
             union_parent(x, y)
             result += weight**(1/2)
+            count += 1
+            if count == N - 1:  # 정점 N개의 트리의 간선 수는 N - 1이므로
+                break
 
     print("{:.2f}".format(result))
 
