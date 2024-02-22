@@ -1,19 +1,23 @@
-N = int(input())
+def solution():
+    N = int(input())
+    dp = [[0] * 10 for _ in range(N + 1)]
+    d = 1000000000
+    if N == 1:
+        return 9
 
-dp = [[0]*10 for _ in range(N+1)]
-for i in range(1, 10):
-    dp[1][i] = 1
+    for i in range(1, 10):
+        dp[1][i] = 1
 
-MOD = 1000000000
+    for n in range(2, N + 1):
+        for i in range(0, 10):
+            if i == 0:
+                dp[n][0] = dp[n - 1][1] % d
+            elif i == 9:
+                dp[n][9] = dp[n - 1][8] % d
+            else:
+                dp[n][i] = (dp[n - 1][i - 1] + dp[n - 1][i + 1]) % d
 
-for i in range(2, N+1):
-    for j in range(10):
-        if j == 0:
-            dp[i][j] = dp[i-1][1]
-        elif j == 9:
-            dp[i][j] = dp[i-1][8]
-        else:
-            dp[i][j] = dp[i-1][j-1] + dp[i-1][j+1] 
+    return sum(dp[N]) % d
 
-print(sum(dp[N]) % MOD)
-# 출처: https://cotak.tistory.com/12 [TaxFree:티스토리]
+
+print(solution())
