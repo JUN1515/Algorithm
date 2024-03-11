@@ -1,21 +1,14 @@
-import sys
-sys.setrecursionlimit(2000)
-def func(n, string):
-    if n == N:
-        answer.add(string)
-        return
+def solution():
+    S = input()
+    N = len(S)
+    answer = set()
 
-    func(n + 1, string + S[n])
-    if string == "":
-        func(n + 1, string)
-    else:
-        answer.add(string)
-        return
 
-S = input().strip()
-N = len(S)
+    for i in range(N):
+        for j in range(i, N):
+            answer.add(S[i : j + 1])
 
-answer = set()
-func(0, "")
+    print(len(answer))
 
-print(len(answer) - 1)
+
+solution()
