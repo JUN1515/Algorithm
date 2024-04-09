@@ -12,12 +12,12 @@ def solution():
                 break
 
             if len(arr[i]) > len(arr[j]):
-                continue
+                break
 
             if arr[i] == arr[j][:len(arr[i])]:
                 answer -= 1
                 break
     print(answer)
-    
+
 
 solution()
